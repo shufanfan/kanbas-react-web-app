@@ -37,6 +37,7 @@ export default function TOC() {
         </li>
       </ul>
       <p>Full Name: Shufan Chai</p>
+      <p>Section: WEBDEV Full Summer 2024</p>
     </div>
   );
 }
