@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+body * {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.flex-fill {
+  margin-left: 35px;
+  margin-right: 10px;
+}
+
+.btn-secondary {
+  --bs-btn-color: #000;
+  --bs-btn-bg: #c7cdd1;
+  --bs-btn-border-color: #c7cdd1;
+  --bs-btn-hover-color: #fff;
+}
+.bg-secondary {
+  background-color: #c7cdd1 !important;
+}
+.border-gray {
+  border: 1px solid gray;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 105px;
+}
