@@ -5,10 +5,10 @@ import { FaBan } from "react-icons/fa";
 
 export default function ModulesControls() {
   return (
-    <div id="wd-modules-controls" className="text-nowrap mt-3">
+    <div id="wd-modules-controls" className="text-nowrap mt-3 ">
       <button
         id="wd-add-module-btn"
-        className="btn btn-md btn-danger me-1 float-end"
+        className="btn btn-md btn-danger me-1 float-end "
       >
         <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
         Module

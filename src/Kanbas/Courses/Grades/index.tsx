@@ -11,8 +11,8 @@ export default function Grades() {
       <div className="my-3"></div>
       <GradesSearchArea />
 
-      <div className="container table-responsive mt-3">
-        <table className="table table-bordered table-striped">
+      <div id="wd-grades-table" className=" table-responsive mt-3">
+        <table className="table  table-bordered table-striped">
           <thead>
             <tr>
               <th>Student Name</th>

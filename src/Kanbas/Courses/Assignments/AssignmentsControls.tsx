@@ -4,7 +4,7 @@ export default function AssignmentsControls() {
   return (
     <div
       id="wd-assignments-controls"
-      className="container d-flex justify-content-between align-items-center mt-4"
+      className=" d-flex justify-content-between align-items-center mt-4"
     >
       <div style={{ position: "relative", width: "100%", maxWidth: "400px" }}>
         <FaSearch
