@@ -17,7 +17,7 @@ export default function AssignmentEditor() {
       </div>
 
       <div className="row mb-3 ">
-        <label htmlFor="wd-points" className="col-sm-3 col-form-label">
+        <label htmlFor="wd-points" className="col-sm-3 col-form-label ">
           Points
         </label>
         <div className="col-sm-9">

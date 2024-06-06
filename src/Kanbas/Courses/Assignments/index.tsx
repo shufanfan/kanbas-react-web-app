@@ -8,12 +8,12 @@ import { FaPlus } from "react-icons/fa";
 export default function Assignments() {
   return (
     <div id="wd-assignments" className="container ">
-      <div className="row col-12 px-0">
+      <div className="row col-12 px-0" style={{ width: "900px" }}>
         <AssignmentsControls />
       </div>
       <div className="my-5"></div>
 
-      <div className="row col-12 px-0">
+      <div className="row col-12 px-0" style={{ width: "900px" }}>
         <div className="container table-responsive ">
           <ul id="wd-assignment-list" className="list-group rounded-0">
             <li className="wd-assignment list-group-item p-0 mb-5 fs-5 border-gray">

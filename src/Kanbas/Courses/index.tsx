@@ -16,10 +16,10 @@ export default function Courses() {
       </h2>
       <hr />
       <div className="d-flex">
-        <div className="d-none d-md-block">
+        <div className="d-none d-lg-block" style={{ position: "fixed" }}>
           <CoursesNavigation />
         </div>
-        <div className="flex-fill">
+        <div className="flex-fill" style={{ marginLeft: "250px" }}>
           <Routes>
             <Route path="/" element={<Navigate to="Home" />} />
             <Route path="Home" element={<Home />} />
