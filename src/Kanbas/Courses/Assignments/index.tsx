@@ -5,7 +5,13 @@ import LessonControlButtons from "../Modules/LessonControlButtons";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
 import { GiNotebook } from "react-icons/gi";
 import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router";
+import * as db from "../../Database";
+
 export default function Assignments() {
+  const { cid } = useParams();
+  const assignments = db.assignments;
   return (
     <div id="wd-assignments" className="container ">
       <div className="row col-12 px-0">
@@ -36,91 +42,39 @@ export default function Assignments() {
             </div>
 
             <ul className="wd-assignments list-group rounded-0 border-start border-5 border-success">
-              <li className="wd-assignment-list-item list-group-item p-3 ps-1 ">
-                <div className="d-flex align-items-center justify-content-between w-100">
-                  <div className="d-flex align-items-center">
-                    <BsGripVertical className="me-4 fs-3" />
-                    <GiNotebook
-                      className="me-4 fs-4"
-                      style={{ color: "green" }}
-                    />
-                    <div>
-                      <a
-                        className="wd-assignment-link"
-                        href="#/Kanbas/Courses/1234/Assignments/123"
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <b>A1</b>
-                      </a>
-                      <br />
-                      <span style={{ color: "red" }}>Multiple Modules</span> |
-                      <b>Not available until</b> May 6 at 12:00am |
-                      <br />
-                      <b>Due</b> May 13 at 11:59pm | 100 pts
+              {assignments
+                .filter((assignment: any) => assignment.course === cid)
+                .map((assignment: any) => (
+                  <li className="wd-assignment-list-item list-group-item p-3 ps-1">
+                    <div className="d-flex align-items-center justify-content-between w-100">
+                      <div className="d-flex align-items-center">
+                        <BsGripVertical className="me-4 fs-3" />
+                        <GiNotebook
+                          className="me-4 fs-4"
+                          style={{ color: "green" }}
+                        />
+                        <div>
+                          <Link
+                            to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                            className="wd-assignment-link "
+                            style={{ textDecoration: "none", color: "black" }}
+                          >
+                            <b>{assignment.title}</b>
+                          </Link>
+                          <br />
+                          <span style={{ color: "red" }}>Multiple Modules</span>
+                          &nbsp; |&nbsp;<b>Not available until</b>{" "}
+                          {assignment.startdate} |
+                          <br />
+                          <b>Due</b> {assignment.enddate} | 100 pts
+                        </div>
+                      </div>
+                      <div>
+                        <LessonControlButtons />
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <LessonControlButtons />
-                  </div>
-                </div>
-              </li>
-
-              <li className="wd-assignment-list-item  list-group-item p-3 ps-1">
-                <div className="d-flex align-items-center justify-content-between w-100">
-                  <div className="d-flex align-items-center">
-                    <BsGripVertical className="me-4 fs-3" />
-                    <GiNotebook
-                      className="me-4 fs-4"
-                      style={{ color: "green" }}
-                    />
-                    <div>
-                      <a
-                        className="wd-assignment-link"
-                        href="#/Kanbas/Courses/1234/Assignments/123"
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <b>A2</b>
-                      </a>
-                      <br />
-                      <span style={{ color: "red" }}>Multiple Modules</span> |
-                      <b>Not available until</b> May 13 at 12:00am |
-                      <br />
-                      <b>Due</b> May 20 at 11:59pm | 100 pts
-                    </div>
-                  </div>
-                  <div>
-                    <LessonControlButtons />
-                  </div>
-                </div>
-              </li>
-              <li className="wd-assignment-list-item  list-group-item p-3 ps-1">
-                <div className="d-flex align-items-center justify-content-between w-100">
-                  <div className="d-flex align-items-center">
-                    <BsGripVertical className="me-4 fs-3" />
-                    <GiNotebook
-                      className="me-4 fs-4"
-                      style={{ color: "green" }}
-                    />
-                    <div>
-                      <a
-                        className="wd-assignment-link"
-                        href="#/Kanbas/Courses/1234/Assignments/123"
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <b>A3</b>
-                      </a>
-                      <br />
-                      <span style={{ color: "red" }}>Multiple Modules</span> |
-                      <b>Not available until</b> May 20 at 12:00am |
-                      <br />
-                      <b>Due</b> May 27 at 11:59pm | 100 pts
-                    </div>
-                  </div>
-                  <div>
-                    <LessonControlButtons />
-                  </div>
-                </div>
-              </li>
+                  </li>
+                ))}
             </ul>
           </li>
         </ul>
