@@ -1,6 +1,12 @@
 import { FaSearch } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
+import { addAssignment } from "./reducer";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 export default function AssignmentsControls() {
+  const dispatch = useDispatch();
+  const { cid, id } = useParams();
   return (
     <div
       id="wd-assignments-controls"
@@ -33,9 +39,15 @@ export default function AssignmentsControls() {
           <FaPlus /> Group
         </button>
 
-        <button id="wd-add-assignment" className="btn btn-md btn-danger ">
-          <FaPlus /> Assignment
-        </button>
+        <Link
+          key={`${cid}/new`}
+          to={`${cid}/new`}
+          id="wd-add-assignment-btn"
+          className="btn btn-md btn-danger"
+        >
+          <FaPlus />
+          Assignment
+        </Link>
       </div>
     </div>
   );

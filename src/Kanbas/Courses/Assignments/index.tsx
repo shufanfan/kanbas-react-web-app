@@ -1,17 +1,35 @@
 import AssignmentsControls from "./AssignmentsControls";
 import { BsGripVertical } from "react-icons/bs";
 import { IoEllipsisVertical } from "react-icons/io5";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
 import { GiNotebook } from "react-icons/gi";
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
-import * as db from "../../Database";
+import React, { useState } from "react";
+import { addAssignment, deleteAssignment, updateAssignment } from "./reducer";
+import { useSelector, useDispatch } from "react-redux";
+import AssignmentControlButtons from "./AssignmentControlButtons";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const assignments = db.assignments;
+  const [assignmentTitle, setAssignmentTitle] = useState("");
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
+
+  const dateObjectToHtmlDateString = (date: Date) => {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+      console.error("Invalid date object:", date);
+      return "";
+    }
+
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <div id="wd-assignments" className="container ">
       <div className="row col-12 px-0">
@@ -45,7 +63,10 @@ export default function Assignments() {
               {assignments
                 .filter((assignment: any) => assignment.course === cid)
                 .map((assignment: any) => (
-                  <li className="wd-assignment-list-item list-group-item p-3 ps-1">
+                  <li
+                    key={assignment._id}
+                    className="wd-assignment-list-item list-group-item p-3 ps-1"
+                  >
                     <div className="d-flex align-items-center justify-content-between w-100">
                       <div className="d-flex align-items-center">
                         <BsGripVertical className="me-4 fs-3" />
@@ -63,14 +84,20 @@ export default function Assignments() {
                           </Link>
                           <br />
                           <span style={{ color: "red" }}>Multiple Modules</span>
-                          &nbsp; |&nbsp;<b>Not available until</b>{" "}
+                          &nbsp; |&nbsp;<b>Not available until</b>&nbsp;
                           {assignment.startdate} |
                           <br />
-                          <b>Due</b> {assignment.enddate} | 100 pts
+                          <b>Due</b>&nbsp;
+                          {assignment.enddate} | 100 pts
                         </div>
                       </div>
-                      <div>
-                        <LessonControlButtons />
+                      <div className="col-auto">
+                        <AssignmentControlButtons
+                          assignmentId={assignment._id}
+                          deleteAssignment={(assignmentId) => {
+                            dispatch(deleteAssignment(assignmentId));
+                          }}
+                        />
                       </div>
                     </div>
                   </li>

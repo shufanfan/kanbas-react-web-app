@@ -68,7 +68,7 @@ export default function Lab2() {
           This background of this paragraph is red but
           <span className="wd-bg-color-green wd-fg-color-white">
             the background of this text is green and the foreground white
-          </span>{" "}
+          </span>
         </p>
       </div>
       <div id="wd-css-borders">
@@ -114,7 +114,7 @@ export default function Lab2() {
       wd-bg-color-yellow"
         >
           Margin bottom
-        </div>{" "}
+        </div>
         <div
           className="wd-margin-right-left
       wd-padded-bottom-right
@@ -123,7 +123,7 @@ export default function Lab2() {
       wd-bg-color-yellow"
         >
           Margin left right
-        </div>{" "}
+        </div>
         <div
           className="wd-margin-all-around
       wd-padding-fat wd-border-fat
