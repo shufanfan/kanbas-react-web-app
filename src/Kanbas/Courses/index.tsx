@@ -5,8 +5,8 @@ import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
-import AddAssignmentForm from "./Assignments/addassignmemt";
 import Grades from "./Grades";
+import AddAssignmentForm from "./Assignments/addassignmemt";
 
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
@@ -29,9 +29,9 @@ export default function Courses({ courses }: { courses: any[] }) {
             <Route path="Home" element={<Home />} />
             <Route path="Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignments />} />
-            <Route path="Assignments/:id" element={<AssignmentEditor />} />
+            <Route path="Assignments/:aid" element={<AssignmentEditor />} />
             <Route
-              path="/Assignments/:cid/:id"
+              path="/Assignments/:cid/:aid"
               element={<AddAssignmentForm />}
             />
             <Route path="Grades" element={<Grades />} />

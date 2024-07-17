@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addAssignment } from "./reducer";
+import * as client from "./client";
 
 export default function AddAssignmentForm() {
-  const { cid } = useParams();
+  const { cid, aid } = useParams();
   const dispatch = useDispatch();
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+
+  const createAssignment = async (assignments: any) => {
+    const newAssignment = await client.createAssignment(
+      cid as string,
+      assignments
+    );
+    dispatch(addAssignment(newAssignment));
+  };
 
   const [assignmentData, setAssignmentData] = useState({
     title: "New Assignment",
@@ -319,7 +329,7 @@ export default function AddAssignmentForm() {
               to={`/Kanbas/Courses/${cid}/Assignments`}
               className="btn btn-danger me-2"
               id="wd-save"
-              onClick={handleSave}
+              onClick={(e) => createAssignment({ ...assignmentData, _id: cid })}
             >
               Save
             </Link>

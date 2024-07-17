@@ -6,29 +6,30 @@ import { GiNotebook } from "react-icons/gi";
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
-import React, { useState } from "react";
-import { addAssignment, deleteAssignment, updateAssignment } from "./reducer";
+import React, { useState, useEffect } from "react";
+import { setAssignments, deleteAssignment } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 import AssignmentControlButtons from "./AssignmentControlButtons";
+import * as client from "./client";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const [assignmentTitle, setAssignmentTitle] = useState("");
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
 
-  const dateObjectToHtmlDateString = (date: Date) => {
-    if (!(date instanceof Date) || isNaN(date.getTime())) {
-      console.error("Invalid date object:", date);
-      return "";
-    }
-
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
+  const fetchAssignments = async () => {
+    const assignments = await client.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
   };
+
+  const removeAssignment = async (assignmentId: string) => {
+    await client.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
 
   return (
     <div id="wd-assignments" className="container ">
@@ -95,7 +96,7 @@ export default function Assignments() {
                         <AssignmentControlButtons
                           assignmentId={assignment._id}
                           deleteAssignment={(assignmentId) => {
-                            dispatch(deleteAssignment(assignmentId));
+                            removeAssignment(assignmentId);
                           }}
                         />
                       </div>

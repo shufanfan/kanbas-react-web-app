@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 export default function AssignmentsControls() {
   const dispatch = useDispatch();
-  const { cid, id } = useParams();
+  const { cid, aid } = useParams();
   return (
     <div
       id="wd-assignments-controls"

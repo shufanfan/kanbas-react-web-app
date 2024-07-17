@@ -4,11 +4,17 @@ import { SlCalender } from "react-icons/sl";
 import React, { useState, useEffect } from "react";
 import { updateAssignment, deleteAssignment } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
+import * as client from "./client";
 
 export default function Editor() {
-  const { cid, id } = useParams();
+  const { cid, aid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
+
+  const saveAssignment = async (assignments: any) => {
+    const status = await client.updateAssignment(assignments);
+    dispatch(updateAssignment(assignments));
+  };
 
   const [assignmentData, setAssignmentData] = useState({
     title: "",
@@ -19,7 +25,7 @@ export default function Editor() {
   });
 
   useEffect(() => {
-    const assignment = assignments.find((assign: any) => assign._id === id);
+    const assignment = assignments.find((assign: any) => assign._id === aid);
     if (assignment) {
       setAssignmentData({
         title: assignment.title,
@@ -29,25 +35,16 @@ export default function Editor() {
         startdate: assignment.startdate,
       });
     }
-  }, [id, assignments]);
+  }, [aid, assignments]);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setAssignmentData({ ...assignmentData, [name]: value });
   };
 
-  const handleSave = () => {
-    dispatch(
-      updateAssignment({
-        ...assignments.find((assign: any) => assign._id === id),
-        ...assignmentData,
-      })
-    );
-  };
-
   const handleCancel = () => {
-    if (id === "New") {
-      dispatch(deleteAssignment(id));
+    if (aid === "New") {
+      dispatch(deleteAssignment(aid));
     }
   };
 
@@ -55,7 +52,7 @@ export default function Editor() {
     <div id="wd-assignment-editor" className="row">
       <div id="wd-assignments-editor-content" className="col-12 col-md-9">
         {assignments
-          .filter((assign: any) => assign._id === id)
+          .filter((assign: any) => assign._id === aid)
           .map((assignment: any) => (
             <div key={assignment._id}>
               <form>
@@ -379,8 +376,10 @@ export default function Editor() {
                   <Link
                     to={`/Kanbas/Courses/${cid}/Assignments`}
                     className="btn btn-danger me-2"
-                    id="wd-cancel"
-                    onClick={handleSave}
+                    id="wd-save"
+                    onClick={(e) =>
+                      saveAssignment({ ...assignmentData, _id: aid })
+                    }
                   >
                     Save
                   </Link>
