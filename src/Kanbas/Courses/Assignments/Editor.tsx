@@ -11,11 +11,6 @@ export default function AssignmentEditor() {
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
 
-  const saveAssignment = async (assignments: any) => {
-    const status = await client.updateAssignment(assignments);
-    dispatch(updateAssignment(assignments));
-  };
-
   const [assignmentData, setAssignmentData] = useState({
     title: "",
     description: "",
@@ -36,6 +31,11 @@ export default function AssignmentEditor() {
       });
     }
   }, [aid, assignments]);
+
+  const saveAssignment = async (assignmentData: any) => {
+    const status = await client.updateAssignment(assignmentData);
+    dispatch(updateAssignment(assignmentData));
+  };
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
