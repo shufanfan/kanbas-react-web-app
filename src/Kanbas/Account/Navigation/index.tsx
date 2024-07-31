@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link, useLocation, useParams } from "react-router-dom";
+import "./index.css";
+
 export default function AccountNavigation() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
@@ -9,8 +11,8 @@ export default function AccountNavigation() {
       {links.map((link) => (
         <Link
           to={`/Kanbas/Account/${link}`}
-          className={`border border-0 list-group-item
-           ${pathname.includes(link) ? "active text-black" : "text-danger"}`}
+          className={`wd-link border border-0 list-group-item
+           ${pathname.includes(link) ? "active" : "text-danger"}`}
         >
           {link}
         </Link>
