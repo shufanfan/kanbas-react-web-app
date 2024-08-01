@@ -4,22 +4,19 @@ import { Routes, Route, Navigate } from "react-router";
 import Courses from "./Courses";
 import "./styles.css";
 import { useEffect, useState } from "react";
-//import * as db from "./Database";
 import * as client from "./Courses/client";
 import store from "./store";
 import { Provider } from "react-redux";
 import Account from "./Account";
 import Session from "./Account/Session";
 import ProtectedRoute from "./Account/ProtectedRoute";
+import axios from "axios";
 
 export default function Kanbas() {
+  const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
+  const COURSES_API = `${REMOTE_SERVER}/api/courses`;
+
   const [courses, setCourses] = useState<any[]>([]);
-
-  const fetchCourses = async () => {
-    const courses = await client.fetchAllCourses();
-    setCourses(courses);
-  };
-
   const [course, setCourse] = useState<any>({
     _id: "1234",
     name: "New Course",
@@ -29,31 +26,48 @@ export default function Kanbas() {
     description: "New Description",
   });
 
-  const addNewCourse = async () => {
-    const newCourse = await client.createCourse(course);
-    setCourses([newCourse, ...courses]);
-  };
-
-  const deleteCourse = async (courseId: any) => {
-    await client.deleteCourse(courseId);
-    setCourses(courses.filter((course) => course._id !== courseId));
-  };
   const updateCourse = async () => {
-    await client.updateCourse(course);
-
+    const response = await axios.put(`${COURSES_API}/${course._id}`, course);
     setCourses(
       courses.map((c) => {
         if (c._id === course._id) {
           return course;
-        } else {
-          return c;
         }
+        return c;
       })
     );
   };
 
+  const deleteCourse = async (courseId: string) => {
+    const response = await axios.delete(`${COURSES_API}/${courseId}`);
+    setCourses(courses.filter((c) => c._id !== courseId));
+  };
+
+  const addNewCourse = async () => {
+    try {
+      const response = await axios.post(COURSES_API, course);
+      setCourses([...courses, response.data]);
+    } catch (error: any) {
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        alert(`Error: ${error.response.data.message}`);
+      } else if (error.request) {
+        console.error("Error request:", error.request);
+        alert(`Error: ${error.request}`);
+      } else {
+        console.error("Error:", error.message);
+        alert(`Error: ${error.message}`);
+      }
+    }
+  };
+
+  const findAllCourses = async () => {
+    const response = await axios.get(COURSES_API);
+    setCourses(response.data);
+  };
+
   useEffect(() => {
-    fetchCourses();
+    findAllCourses();
   }, []);
 
   return (
