@@ -17,15 +17,14 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 export default function Modules() {
+  const { cid } = useParams();
+  const dispatch = useDispatch();
+
   const removeModule = async (moduleId: string) => {
     await client.deleteModule(moduleId);
     dispatch(deleteModule(moduleId));
   };
 
-  const { cid } = useParams();
-  const [moduleName, setModuleName] = useState("");
-  const { modules } = useSelector((state: any) => state.modulesReducer);
-  const dispatch = useDispatch();
   const createModule = async (module: any) => {
     const newModule = await client.createModule(cid as string, module);
     dispatch(addModule(newModule));
@@ -35,13 +34,18 @@ export default function Modules() {
     const modules = await client.findModulesForCourse(cid as string);
     dispatch(setModules(modules));
   };
+
   useEffect(() => {
     fetchModules();
   }, []);
+
   const saveModule = async (module: any) => {
     const status = await client.updateModule(module);
     dispatch(updateModule(module));
   };
+
+  const [moduleName, setModuleName] = useState("");
+  const { modules } = useSelector((state: any) => state.modulesReducer);
 
   return (
     <div id="wd-modules" className="container">

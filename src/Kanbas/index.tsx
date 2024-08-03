@@ -18,7 +18,7 @@ export default function Kanbas() {
 
   const [courses, setCourses] = useState<any[]>([]);
   const [course, setCourse] = useState<any>({
-    _id: "1234",
+    _id: "0",
     name: "New Course",
     number: "New Number",
     startDate: "2023-09-10",
@@ -45,11 +45,12 @@ export default function Kanbas() {
 
   const addNewCourse = async () => {
     try {
+      console.log("Adding new course:", course);
       const response = await axios.post(COURSES_API, course);
       setCourses([...courses, response.data]);
     } catch (error: any) {
       if (error.response) {
-        console.error("Error response:", error.response.data);
+        //console.error("Error response:", error.response.data);
         alert(`Error: ${error.response.data.message}`);
       } else if (error.request) {
         console.error("Error request:", error.request);
